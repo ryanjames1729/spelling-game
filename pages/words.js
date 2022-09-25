@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { submitWords } from '../services'
+import { submitWords, server } from '../services'
 
 const WordsForm = () => {
     const [error, setError] = useState(false)
@@ -24,9 +24,11 @@ const WordsForm = () => {
         submitWords(wordListObject)
             .then((res) => {
                 setShowSuccessMessage(true);
+                let url = server + "/" + slug;
+                window.open(url, "_blank");
                 setTimeout(() => {
                     setShowSuccessMessage(false);
-                }, 3000);
+                }, 10000);
             })
     }
 
@@ -66,7 +68,7 @@ const WordsForm = () => {
                 {error && <p className="text-xs test-red-500">All fields are required.</p>}
                 <div className="mt-8 rounded-lg w-1/3 hover:cursor-pointer">
                 <button type="button" onClick={handleSubmit} className="w-36 p-2 rounded-lg bg-cyan-700 hover:bg-cyan-800 hover:underline">Create My Quiz</button>
-                {showSuccessMessage && <span className="bg-orange-500 rounded-md background"><br/>Thanks for the list of words!</span>}
+                {showSuccessMessage && <span className="bg-orange-500 rounded-md background"><br/>We're working on your new quiz.</span>}
                 </div>
             </div>
             

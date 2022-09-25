@@ -61,10 +61,16 @@ export default function Quiz({ wordLists }) {
         i--;
     }
   }
+
+  for(let j = wordArray.length - 1; j > 0; j--) {
+    const k = Math.floor(Math.random() * (j + 1));
+    [wordArray[j], wordArray[k]] = [wordArray[k], wordArray[j]];
+  }
   const [word, setWord] = React.useState(wordArray[0]);
   const { speak } = useSpeechSynthesis();
   const [index, setIndex] = React.useState(0);
   const [guessedWord, setGuessedWord] = React.useState('');
+  const [score, setScore] = React.useState(0);
 
   console.log(wordArray);
 
@@ -86,7 +92,7 @@ export default function Quiz({ wordLists }) {
           {/* <code>{wordLists[0].words}</code> */}
           <div className="p-2">
             <button onClick={() => {
-                setWord(wordArray[index]);
+                // setWord(wordArray[index]);
                     speak({ text: word });
 
                 }}
@@ -112,11 +118,13 @@ export default function Quiz({ wordLists }) {
               onClick={() => {
                 console.log(index)
                 if (guessedWord.trim() == word.trim()) {
-                  alert("Correct!");
-                  setIndex(index + 1 < 3 ? index + 1 : 0);
-                  setWord(wordArray[index]);
+                  setScore(score + 10);
+                  alert("Correct!\n\nYour score is: " + (score+10));
+                  const newIndex = index + 1 <= wordArray.length - 1 ? index + 1 : 0;
+                  setIndex(newIndex);
+                  setWord(wordArray[newIndex]);
                 } else {
-                  alert("Incorrect!");
+                  alert("Incorrect!\n\nYour score is: " + score);
                 }
                 console.log(index)
               }}

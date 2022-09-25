@@ -1,7 +1,7 @@
 import { request, gql } from 'graphql-request';
 
 const dev = process.env.NODE_ENV !== 'production';
-const server = dev ? 'http://localhost:3000' : 'https://hygraph.vercel.app';
+export const server = dev ? 'http://localhost:3000' : 'https://hygraph.vercel.app';
 
 const graphqlAPI = process.env.HYGRAPH_ENDPOINT;
 
