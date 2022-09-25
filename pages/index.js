@@ -18,7 +18,9 @@ export default function Home() {
 
         <p className={styles.description}>
           Get started by editing the{' '}
-          <code className={styles.code}>word list</code>
+          <code className={styles.code}><a href="/words" className="hover:text-blue-600">word list</a></code><br/>
+          Or try out this{' '}
+          <code className={styles.code}><a href="/quiz" className="hover:text-blue-600">quiz</a></code>
         </p>
 
         <div className={styles.grid}>

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 
 import React from 'react'
 
@@ -8,24 +8,12 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { useSpeechSynthesis } from 'react-speech-kit';
 
 
-
-const GetWordList = gql`
-query WordLists {
-    wordLists {
-      id
-      slug
-      userName
-      words
-    }
-  }
-`;
-
 export const getStaticProps = async (context) => {
     const hygraph = new GraphQLClient(process.env.HYGRAPH_ENDPOINT)
 
     const { wordLists } = await hygraph.request(`
     {
-        wordLists {
+        wordLists (where: {slug: "${context.params.slug}"}) {
             id
             slug
             userName
@@ -40,14 +28,43 @@ export const getStaticProps = async (context) => {
     }
 }
 
+export const getStaticPaths = async () => {
+    const hygraph = new GraphQLClient(process.env.HYGRAPH_ENDPOINT)
+
+    const { wordLists } = await hygraph.request(`
+        {
+            wordLists {
+                slug
+            }
+        }
+    `)
+
+    const paths = wordLists.map(item => ({
+        params: {
+            slug: item.slug,
+        }
+    }));
+
+    return {
+        paths,
+        fallback: false,
+    };
+}
+
 export default function Quiz({ wordLists }) {
 
   const wordArray = wordLists[0].words.split(';');
+  for(let i = 0; i < wordArray.length; i++) {
+    wordArray[i] = wordArray[i].trim();
+    if(wordArray[i].length === 0) {
+        wordArray.splice(i, 1);
+        i--;
+    }
+  }
   const [word, setWord] = React.useState(wordArray[0]);
   const { speak } = useSpeechSynthesis();
   const [index, setIndex] = React.useState(0);
   const [guessedWord, setGuessedWord] = React.useState('');
-  const [score, setScore] = React.useState(0);
 
   console.log(wordArray);
 
@@ -69,6 +86,7 @@ export default function Quiz({ wordLists }) {
           {/* <code>{wordLists[0].words}</code> */}
           <div className="p-2">
             <button onClick={() => {
+                setWord(wordArray[index]);
                     speak({ text: word });
 
                 }}
@@ -92,15 +110,15 @@ export default function Quiz({ wordLists }) {
             <button
               className={"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"}
               onClick={() => {
+                console.log(index)
                 if (guessedWord.trim() == word.trim()) {
-                  setScore(score + 10);
-                  alert("Correct!\n\nYour score is: " + (score+10));
-                  const newIndex = index + 1 <= wordArray.length - 1 ? index + 1 : 0;
-                  setIndex(newIndex);
-                  setWord(wordArray[newIndex]);
+                  alert("Correct!");
+                  setIndex(index + 1 < 3 ? index + 1 : 0);
+                  setWord(wordArray[index]);
                 } else {
-                  alert("Incorrect!\n\nYour score is: " + score);
+                  alert("Incorrect!");
                 }
+                console.log(index)
               }}
             >
               Check Answer
