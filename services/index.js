@@ -1,7 +1,7 @@
 import { request, gql } from 'graphql-request';
 
 const dev = process.env.NODE_ENV !== 'production';
-export const server = dev ? 'http://localhost:3000' : 'https://hygraph.vercel.app';
+export const server = dev ? 'http://localhost:3000' : 'https://cds-spelling-game.netlify.app/';
 
 const graphqlAPI = process.env.HYGRAPH_ENDPOINT;
 
