@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -18,9 +19,9 @@ export default function Home() {
 
         <p className={styles.description}>
           Get started by editing the{' '}
-          <code className={styles.code}><a href="/words" className="hover:text-blue-600">word list</a></code><br/>
+          <code className={styles.code}><Link href="/words"><a className="hover:text-blue-600">word list</a></Link></code><br/>
           Or try out this{' '}
-          <code className={styles.code}><a href="/quiz" className="hover:text-blue-600">quiz</a></code>
+          <code className={styles.code}><Link href="/quiz"><a className="hover:text-blue-600">quiz</a></Link></code>
         </p>
 
         <div className={styles.grid}>
