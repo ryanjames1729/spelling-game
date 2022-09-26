@@ -42,7 +42,7 @@ const WordsForm = () => {
             />
             </div>
 
-            <h1 className="text-3xl">Your user name:</h1>
+            <h1 className="text-3xl">Your user name: (no spaces, dots, backslashes, or @)</h1>
             <div className="grid grid-cols-1 gap-4 mb-4">
                 <input 
                     type="text" ref={userNameValue}
@@ -53,7 +53,7 @@ const WordsForm = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-4 mb-4">
-                <h1 className="text-3xl">Your quiz name:</h1>
+                <h1 className="text-3xl">Your quiz name: (no spaces, dots, backslashes, or @)</h1>
                 <div className="grid grid-cols-1 gap-4 mb-4">
                     <input 
                         type="text" ref={quizNameValue}
