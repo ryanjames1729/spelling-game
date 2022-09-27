@@ -16,6 +16,17 @@ const WordsForm = () => {
         const { value: quizName } = quizNameValue.current;
         const { value: userName } = userNameValue.current;
 
+        if (!words || !quizName || !userName) {
+            alert('Please fill out all fields');
+            return;
+        }
+        const exp = /[^a-zA-Z0-9]/
+    
+        if (!exp.test(userName) || !exp.test(quizName)) {
+            alert('Please use only letters and numbers - no spaces or special characters');
+            return;
+        }
+
         const slug = userName + "-" + quizName;
 
         const wordListObject = { userName, quizName, slug, words };
@@ -34,32 +45,44 @@ const WordsForm = () => {
 
     return ( 
         <div className="p-4 rounded-lg shadow-lg border-black">
-            <h1 className="text-3xl">Enter your word list, separated by a semicolon.</h1>
-            <div className="grid grid-cols-1 gap-4 mb-4">
-                <textarea ref={wordValue} className="p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-slate-300 dark:bg-gray-200 dark:text-black" 
+            
+            <div className="grid grid-cols-1 gap-4 mb-12">
+            <label for="words"><h1 className="text-3xl">Enter your word list, separated by a semicolon.</h1></label>
+                <input ref={wordValue} className="p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-slate-300 dark:bg-gray-200 dark:text-black" 
                 placeholder="aback; bacon; cabal; daddy; eager; etc."
-                name="comment"
+                name="words"
+                id="words"
+                required
+                minLength="1"
             />
             </div>
 
-            <h1 className="text-3xl">Your user name: (no spaces, dots, backslashes, or @)</h1>
-            <div className="grid grid-cols-1 gap-4 mb-4">
+            
+            <div className="grid grid-cols-1 gap-4 mb-12">
+            <label for="name"><h1 className="text-3xl">Your user name:</h1></label>
                 <input 
                     type="text" ref={userNameValue}
                     className="p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 dark:bg-gray-200 dark:text-black"
-                    placeholder="Name"
+                    placeholder="jsmith"
                     name="name"
+                    id="name"
+                    required
+                    minLength="1"
+                    maxlength="25"
                 />
             </div>
 
-            <div className="grid grid-cols-1 gap-4 mb-4">
-                <h1 className="text-3xl">Your quiz name: (no spaces, dots, backslashes, or @)</h1>
+            <div className="grid grid-cols-1 gap-4 mb-12">
+                <label for="quiz"><h1 className="text-3xl">Your quiz name:</h1></label>
                 <div className="grid grid-cols-1 gap-4 mb-4">
                     <input 
                         type="text" ref={quizNameValue}
                         className="p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 dark:bg-gray-200 dark:text-black"
-                        placeholder="Name"
-                        name="name"
+                        placeholder="quizWeekOne"
+                        name="quiz"
+                        required
+                        minLength="1"
+                        maxlength="25"
                     />
                 </div>
                 <div className="grid grid-cols-1 gap-4 mb-4">
