@@ -72,6 +72,9 @@ export default function Quiz({ wordLists }) {
   const [guessedWord, setGuessedWord] = React.useState('');
   const [score, setScore] = React.useState(0);
 
+  const [pitch, setPitch] = React.useState(1);
+  const [rate, setRate] = React.useState(1);
+
   console.log(wordArray);
 
 
@@ -93,7 +96,7 @@ export default function Quiz({ wordLists }) {
           <div className="p-2">
             <button onClick={() => {
                 // setWord(wordArray[index]);
-                    speak({ text: word });
+                    speak({ text: word, rate, pitch });
 
                 }}
                 className={"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"}
@@ -132,6 +135,42 @@ export default function Quiz({ wordLists }) {
               Check Answer
             </button>
           </div>
+
+
+          <div>
+              <div>
+                <label htmlFor="rate">Rate: </label>
+                <div>{rate}</div>
+              </div>
+              <input
+                type="range"
+                min="0.5"
+                max="2"
+                defaultValue="1"
+                step="0.1"
+                id="rate"
+                onChange={(event) => {
+                  setRate(event.target.value);
+                }}
+              />
+            </div>
+            <div>
+              <div>
+                <label htmlFor="pitch">Pitch: </label>
+                <div className="pitch-value">{pitch}</div>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="2"
+                defaultValue="1"
+                step="0.1"
+                id="pitch"
+                onChange={(event) => {
+                  setPitch(event.target.value);
+                }}
+              />
+            </div>
           
         </div>
       </main>
