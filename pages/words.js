@@ -22,10 +22,18 @@ const WordsForm = () => {
         }
         const exp = /[^a-zA-Z0-9]/
     
-        if (!exp.test(userName) || !exp.test(quizName)) {
+        if (exp.test(userName)) {
+            console.log(userName + ' ' + exp.test(userName))
             alert('Please use only letters and numbers - no spaces or special characters');
             return;
         }
+
+        if (exp.test(quizName)) {
+            console.log(quizName + ' ' + !exp.test(quizName))
+            alert('Please use only letters and numbers - no spaces or special characters');
+            return;
+        }
+        
 
         const slug = userName + "-" + quizName;
 
